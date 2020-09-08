@@ -1,5 +1,6 @@
 using System;
 using BaGet.Core;
+using BaGet.Legacy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -32,6 +33,17 @@ namespace BaGet
         {
             app.Services.TryAddTransient<ISearchIndexer>(provider => provider.GetRequiredService<NullSearchIndexer>());
             app.Services.TryAddTransient<ISearchService>(provider => provider.GetRequiredService<NullSearchService>());
+            return app;
+        }
+
+        public static BaGetApplication AddApiV2(this BaGetApplication app)
+        {
+            app.Services.AddSingleton(provider => {
+                var odataModelBuilder = new NuGetWebApiODataModelBuilder();
+                odataModelBuilder.Build();
+                return odataModelBuilder.Model;
+            });
+            app.Services.TryAddTransient<IODataPackageSerializer, ODataPackageSerializer>();
             return app;
         }
     }

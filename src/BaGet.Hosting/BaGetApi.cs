@@ -15,6 +15,7 @@ namespace BaGet
             MapSearchRoutes(endpoints);
             MapPackageMetadataRoutes(endpoints);
             MapPackageContentRoutes(endpoints);
+            MapApiV2Routes(endpoints);
         }
 
         public void MapServiceIndexRoutes(IEndpointRouteBuilder endpoints)
@@ -123,6 +124,52 @@ namespace BaGet
                 name: Routes.PackageDownloadIconRouteName,
                 pattern: "v3/package/{id}/{version}/icon",
                 defaults: new { controller = "PackageContent", action = "DownloadIcon" });
+        }
+
+        public void MapApiV2Routes(IEndpointRouteBuilder endpoints)
+        {
+            endpoints.MapControllerRoute(
+                name: Routes.IndexRouteName,
+                pattern: "v2",
+                defaults: new { controller = "PackagesV2", action = "Index" },
+                constraints: new { httpMethod = new HttpMethodRouteConstraint("GET") });
+
+            endpoints.MapControllerRoute(
+                name: Routes.IndexRouteName,
+                pattern: "v2/$metadata",
+                defaults: new { controller = "PackagesV2", action = "Index" },
+                constraints: new { httpMethod = new HttpMethodRouteConstraint("GET") });
+
+            endpoints.MapControllerRoute(
+                name: Routes.UploadPackageRouteName,
+                pattern: "v2",
+                defaults: new { controller = "PackagesV2", action = "PutPackage" },
+                constraints: new { httpMethod = new HttpMethodRouteConstraint("PUT") });
+
+            endpoints.MapControllerRoute(
+                name: Routes.PackageDownloadRouteName,
+                pattern: "v2/contents/{id}/{version}",
+                defaults: new { controller = "PackagesV2", action = "DownloadPackage" });
+
+            endpoints.MapControllerRoute(
+                name: Routes.PackageDownloadRouteName,
+                pattern: "v2/Packages(Id='{id}',Version='{version}')/Download",
+                defaults: new { controller = "PackagesV2", action = "DownloadPackage" });
+
+            endpoints.MapControllerRoute(
+                name: Routes.PackageDownloadRouteName,
+                pattern: "v2/Packages(Id='{id}',Version='{version}')",
+                defaults: new { controller = "PackagesV2", action = "DownloadPackageDesc" });
+
+            endpoints.MapControllerRoute(
+                name: Routes.SearchRouteName,
+                pattern: "v2/FindPackagesById",
+                defaults: new { controller = "PackagesV2", action = "FindPackagesById" });
+
+            endpoints.MapControllerRoute(
+                name: Routes.SearchRouteName,
+                pattern: "v2/Packages()",
+                defaults: new { controller = "PackagesV2", action = "QueryPackages" });
         }
     }
 }

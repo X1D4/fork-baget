@@ -79,6 +79,9 @@ namespace BaGet
 
             // Add search providers.
             app.AddAzureSearch();
+
+            // Add API V2
+            app.AddApiV2();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

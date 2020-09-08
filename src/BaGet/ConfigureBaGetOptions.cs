@@ -64,6 +64,7 @@ namespace BaGet
 
         public void Configure(FormOptions options)
         {
+            options.ValueLengthLimit = int.MaxValue;
             options.MultipartBodyLengthLimit = int.MaxValue;
         }
 
