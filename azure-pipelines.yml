@@ -58,12 +58,12 @@ jobs:
           workingDir: src/BaGet.UI
           customCommand: run build
 
-    - task: Npm@1
-      displayName: Test frontend
-      inputs:
-          command: custom
-          customCommand: test
-          workingDir: src/BaGet.UI
+#    - task: Npm@1
+#      displayName: Test frontend
+#      inputs:
+#          command: custom
+#          customCommand: test
+#          workingDir: src/BaGet.UI
 
     - script: dotnet build --configuration $(BuildConfiguration)
       displayName: Build backend
